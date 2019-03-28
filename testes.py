@@ -1,6 +1,11 @@
 # import sys
 import csv
 import random
+import datetime as dt
+import pandas as pd
+from pandas import ExcelWriter
+from pandas import ExcelFile
+import numpy as np
 
 def quicksort(l):
         if l:
@@ -92,6 +97,10 @@ def selectionSort(alist):
 
 nomes = []
 sobrenomes = []
+data_ini = []
+data_fim = []
+dif = []
+
 with open('arq/nomes.csv', newline='') as f:
     arq = csv.reader(f, delimiter=';', quoting=csv.QUOTE_NONE)
     count = 0
@@ -117,23 +126,67 @@ while (n < int(max) ):
     n += 1
 else:
     print(nome_completo)
-    print('\n\n 1 - Quick Sort,\n 2 - Merge Sort,\n 3 - Heap Sort,\n 4 - Shell Sort,\n 5 - Selection Sort.')
+    print('\n\n 1 - Quick Sort,\n 2 - Merge Sort,\n 3 - Heap Sort,\n 4 - Shell Sort,\n 5 - Selection Sort. \n 0 - Fim teste')
     menu = input('Selecione uma opcao: ')
     if menu == '1':
-        tipo1 = quicksort(nome_completo) 
+        data_ini_quick = dt.datetime.now()
+        tipo1 = quicksort(nome_completo)
+        data_fim_quick = dt.datetime.now()
+        dt.timedelta(-1,0,999999) 
+        dif_quick = data_fim_quick - data_ini_quick
+        # dif = divmod(data_ini[0],data_fim[0])
         print('\n\n',tipo1)
+        print('\n\n',dif_quick)
+        print('\n\n',data_ini_quick)
+        print('\n\n',data_fim_quick)
     elif menu == '2':
+        data_ini_merge = dt.datetime.now()
         tipo2 = mergeSort(nome_completo)
+        data_fim_merge = dt.datetime.now()
+        dt.timedelta(-1,0,999999)
+        dif_merge = data_fim_merge - data_ini_merge
         print('\n\n', tipo2)
+        print('\n\n',dif_merge)
+        print('\n\n',data_ini_merge)
+        print('\n\n',data_fim_merge)
     elif menu == '3':
+        data_ini_heap = dt.datetime.now()
         tipo3 = heap_sorted(nome_completo)
+        data_fim_heap = dt.datetime.now()
+        dt.timedelta(-1,0,999999)
+        dif_heap = data_fim_heap - data_ini_heap
         print('\n\n', tipo3)
+        print('\n\n',dif_heap)
+        print('\n\n',data_ini_heap)
+        print('\n\n',data_fim_heap)
     elif menu == '4':
+        data_ini_shell = dt.datetime.now()
         shellSort(nome_completo)
+        data_fim_shell = dt.datetime.now()
+        dt.timedelta(-1,0,999999)
+        dif_shell = data_fim_shell - data_ini_shell
+        print('\n\n',nome_completo)
+    elif menu == '5':
+        data_ini_select = dt.datetime.now()
+        selectionSort(nome_completo)
+        data_fim_select = dt.datetime.now()
+        dt.timedelta(-1,0,999999)
+        dif_select = data_fim_select - data_ini_select
         print('\n\n',nome_completo)
     else:
-        selectionSort(nome_completo)
-        print('\n\n',nome_completo)
+        print('\n\n Finalizando testes')
+        df = pd.DataFrame({
+            'Metodo':[1,2,3],
+            'Qtd Dados':[1,2,3],
+            'Tempo Inicial':[1,2,3],
+            'Tempo Final': [1,2,3],
+            'Diferenca': [1,2,3],
+            'Memoria': [1,2,3],
+            'Processador':[1,2,3]
+        })
+        writer = ExcelWriter('analiseShorts.xlsx')
+        df.to_excel(writer,'Sheet1',index=False)
+        writer.save()
 
 
 #https://wiki.python.org.br/QuickSort
